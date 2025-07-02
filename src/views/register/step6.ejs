@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مرحله ۶: اطلاعات تکمیلی هنرجو | سامانه ثبت‌نام هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+    .input-field {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .input-field:focus {
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.2);
+    }
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #4338ca 0%, #d97706 100%);
+      border-radius: 3px;
+    }
+    .radio-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .radio-card:hover {
+      transform: translateY(-2px);
+    }
+    .radio-card.selected {
+      border-color: #4338ca;
+      background-color: rgba(67, 56, 202, 0.05);
+    }
+    .select-arrow {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: left 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+    }
+    .checkbox-item:hover {
+      background-color: rgba(67, 56, 202, 0.05);
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-4xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <!-- Decorative Elements -->
+    <div class="absolute -top-10 -right-10 w-20 h-20 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-secondary-light rounded-full opacity-10"></div>
+    
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-600">مرحله ۶ از ۶</span>
+        <span class="text-sm font-medium text-primary">۱۰۰% تکمیل شده</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="progress-bar h-2.5 rounded-full" style="width: 100%"></div>
+      </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 bg-white rounded-full shadow-neumorphism flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-user-graduate text-primary text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black text-gray-800 mb-2">
+        اطلاعات تکمیلی هنرجو
+      </h1>
+      <p class="text-gray-600">لطفاً اطلاعات تکمیلی دانش‌آموز را با دقت وارد نمایید</p>
+    </div>
+    
+    <!-- Error Message -->
+    <% if (error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 flex items-start">
+        <i class="fas fa-exclamation-circle text-red-500 mt-1 ml-2"></i>
+        <div>
+          <p class="font-medium"><%= error %></p>
+        </div>
+      </div>
+    <% } %>
+    
+    <!-- Form -->
+    <form method="POST" action="/step6" class="space-y-6">
+      <!-- Section 1: Family Info -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-home text-blue-500 ml-2"></i>
+          اطلاعات خانوادگی
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Living With -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">هم‌خانگی هنرجو</label>
+            <select name="livingWith" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="fatherAndMother" <%= formData.livingWith === 'fatherAndMother' ? 'selected' : '' %>>پدر و مادر</option>
+              <option value="father" <%= formData.livingWith === 'father' ? 'selected' : '' %>>پدر</option>
+              <option value="mother" <%= formData.livingWith === 'mother' ? 'selected' : '' %>>مادر</option>
+              <option value="others" <%= formData.livingWith === 'others' ? 'selected' : '' %>>سایرین</option>
+            </select>
+            <% if (formData.livingWith === 'others') { %>
+              <input type="text" name="livingWithOthers" placeholder="لطفاً قید شود" 
+                     value="<%= formData.livingWithOthers || '' %>"
+                     class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2" />
+            <% } %>
+          </div>
+          
+          <!-- Parents Status -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">وضعیت والدین</label>
+            <select name="parentsStatus" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="livingTogether" <%= formData.parentsStatus === 'livingTogether' ? 'selected' : '' %>>با هم زندگی می‌کنند</option>
+              <option value="notLivingTogether" <%= formData.parentsStatus === 'notLivingTogether' ? 'selected' : '' %>>با هم زندگی نمی‌کنند</option>
+            </select>
+          </div>
+          
+          <!-- Divorced Parents -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">طلاق والدین</label>
+            <div class="flex items-center">
+              <label class="inline-flex items-center cursor-pointer mr-4">
+                <input type="checkbox" name="divorcedParents" value="yes" 
+                       <%= formData.divorcedParents === 'yes' ? 'checked' : '' %>
+                       class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+                <span class="mr-2">بله</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Deceased Parents -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">فوت والدین</label>
+            <div class="flex items-center">
+              <label class="inline-flex items-center cursor-pointer mr-4">
+                <input type="checkbox" name="deceasedParents" value="yes" 
+                       <%= formData.deceasedParents === 'yes' ? 'checked' : '' %>
+                       class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+                <span class="mr-2">بله</span>
+              </label>
+            </div>
+            <% if (formData.deceasedParents === 'yes') { %>
+              <textarea name="deceasedExplanation" placeholder="توضیح دهید..."
+                        class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2"><%= formData.deceasedExplanation || '' %></textarea>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 2: Skills & Achievements -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-trophy text-yellow-500 ml-2"></i>
+          مهارت‌ها و دستاوردها
+        </h2>
+        
+        <!-- Working Outside -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">اشتغال خارج از تحصیل</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="workingNoLabel">
+              <input type="radio" name="workingOutside" value="no" 
+                     <%= formData.workingOutside === 'no' ? 'checked' : '' %> required class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                <span>نمی‌باشد</span>
+              </div>
+            </label>
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="workingYesLabel">
+              <input type="radio" name="workingOutside" value="yes" 
+                     <%= formData.workingOutside === 'yes' ? 'checked' : '' %> class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                <span>می‌باشد</span>
+              </div>
+            </label>
+          </div>
+          <% if (formData.workingOutside === 'yes') { %>
+            <textarea name="workingExplanation" placeholder="توضیح دهید..."
+                      class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2"><%= formData.workingExplanation || '' %></textarea>
+          <% } %>
+        </div>
+        
+        <!-- Sports Rank -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">مقام ورزشی</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="sportsNoLabel">
+              <input type="radio" name="sportsRank" value="no" 
+                     <%= formData.sportsRank === 'no' ? 'checked' : '' %> required class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                <span>ندارد</span>
+              </div>
+            </label>
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="sportsYesLabel">
+              <input type="radio" name="sportsRank" value="yes" 
+                     <%= formData.sportsRank === 'yes' ? 'checked' : '' %> class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-medal text-yellow-500 ml-2"></i>
+                <span>دارد</span>
+              </div>
+            </label>
+          </div>
+          <% if (formData.sportsRank === 'yes') { %>
+            <textarea name="sportsRankDesc" placeholder="عنوان رشته و مقام"
+                      class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2"><%= formData.sportsRankDesc || '' %></textarea>
+          <% } %>
+        </div>
+        
+        <!-- Art Rank -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">مقام فرهنگی/هنری</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="artNoLabel">
+              <input type="radio" name="artRank" value="no" 
+                     <%= formData.artRank === 'no' ? 'checked' : '' %> required class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                <span>ندارد</span>
+              </div>
+            </label>
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="artYesLabel">
+              <input type="radio" name="artRank" value="yes" 
+                     <%= formData.artRank === 'yes' ? 'checked' : '' %> class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-palette text-purple-500 ml-2"></i>
+                <span>دارد</span>
+              </div>
+            </label>
+          </div>
+          <% if (formData.artRank === 'yes') { %>
+            <textarea name="artRankDesc" placeholder="عنوان رشته و مقام"
+                      class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2"><%= formData.artRankDesc || '' %></textarea>
+          <% } %>
+        </div>
+        
+        <!-- Special Skills -->
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">مهارت خاص</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="skillNoLabel">
+              <input type="radio" name="specialSkill" value="no" 
+                     <%= formData.specialSkill === 'no' ? 'checked' : '' %> required class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                <span>ندارد</span>
+              </div>
+            </label>
+            <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                   id="skillYesLabel">
+              <input type="radio" name="specialSkill" value="yes" 
+                     <%= formData.specialSkill === 'yes' ? 'checked' : '' %> class="hidden" />
+              <div class="flex items-center">
+                <i class="fas fa-star text-blue-500 ml-2"></i>
+                <span>دارد</span>
+              </div>
+            </label>
+          </div>
+          <% if (formData.specialSkill === 'yes') { %>
+            <textarea name="specialSkillDesc" placeholder="عنوان مهارت و زمینه کاری"
+                      class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2"><%= formData.specialSkillDesc || '' %></textarea>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Section 3: Personal Details -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-id-card text-green-500 ml-2"></i>
+          مشخصات فردی
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sadat -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">خانواده سادات</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="sadatNoLabel">
+                <input type="radio" name="isSadat" value="no" 
+                       <%= formData.isSadat === 'no' ? 'checked' : '' %> required class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                  <span>نمی‌باشد</span>
+                </div>
+              </label>
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="sadatYesLabel">
+                <input type="radio" name="isSadat" value="yes" 
+                       <%= formData.isSadat === 'yes' ? 'checked' : '' %> class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                  <span>می‌باشد</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Writing Hand -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">دست غالب</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="handRightLabel">
+                <input type="radio" name="writingHand" value="right" 
+                       <%= formData.writingHand === 'right' ? 'checked' : '' %> required class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-hand-point-right text-blue-500 ml-2"></i>
+                  <span>راست‌دست</span>
+                </div>
+              </label>
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="handLeftLabel">
+                <input type="radio" name="writingHand" value="left" 
+                       <%= formData.writingHand === 'left' ? 'checked' : '' %> class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-hand-point-left text-blue-500 ml-2"></i>
+                  <span>چپ‌دست</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Parent Teacher -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">والدین فرهنگی</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="teacherNoLabel">
+                <input type="radio" name="parentTeacher" value="no" 
+                       <%= formData.parentTeacher === 'no' ? 'checked' : '' %> required class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                  <span>نمی‌باشد</span>
+                </div>
+              </label>
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="teacherYesLabel">
+                <input type="radio" name="parentTeacher" value="yes" 
+                       <%= formData.parentTeacher === 'yes' ? 'checked' : '' %> class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-chalkboard-teacher text-indigo-500 ml-2"></i>
+                  <span>می‌باشد</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Staff Codes -->
+          <% if (formData.parentTeacher === 'yes') { %>
+            <div>
+              <label class="block text-gray-700 mb-2 font-medium">کد پرسنلی پدر</label>
+              <input type="text" name="fatherStaffCode" 
+                     value="<%= formData.fatherStaffCode || '' %>"
+                     class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+            </div>
+            <div>
+              <label class="block text-gray-700 mb-2 font-medium">کد پرسنلی مادر</label>
+              <input type="text" name="motherStaffCode" 
+                     value="<%= formData.motherStaffCode || '' %>"
+                     class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Section 4: Background Info -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-info-circle text-purple-500 ml-2"></i>
+          اطلاعات پایه
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Religion -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">دین و مذهب</label>
+            <select name="religion" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="shia" <%= formData.religion === 'shia' ? 'selected' : '' %>>اسلام (تشیع)</option>
+              <option value="sunni" <%= formData.religion === 'sunni' ? 'selected' : '' %>>اسلام (تسنن)</option>
+              <option value="jewish" <%= formData.religion === 'jewish' ? 'selected' : '' %>>یهودی</option>
+              <option value="christian" <%= formData.religion === 'christian' ? 'selected' : '' %>>مسیحی</option>
+              <option value="zoroastrian" <%= formData.religion === 'zoroastrian' ? 'selected' : '' %>>زرتشتی</option>
+              <option value="other" <%= formData.religion === 'other' ? 'selected' : '' %>>سایر</option>
+            </select>
+            <% if (formData.religion === 'other') { %>
+              <input type="text" name="religionOther" placeholder="لطفاً قید شود" 
+                     value="<%= formData.religionOther || '' %>"
+                     class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2" />
+            <% } %>
+          </div>
+          
+          <!-- Nationality -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">تابعیت</label>
+            <select name="nationality" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="iranian" <%= formData.nationality === 'iranian' ? 'selected' : '' %>>ایرانی</option>
+              <option value="nonIranian" <%= formData.nationality === 'nonIranian' ? 'selected' : '' %>>غیر ایرانی</option>
+            </select>
+            <% if (formData.nationality === 'nonIranian') { %>
+              <input type="text" name="nationalityCountry" placeholder="نام کشور قید شود" 
+                     value="<%= formData.nationalityCountry || '' %>"
+                     class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2" />
+            <% } %>
+          </div>
+          
+          <!-- Insurance -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">بیمه</label>
+            <select name="insurance" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="socialSecurity" <%= formData.insurance === 'socialSecurity' ? 'selected' : '' %>>تأمین اجتماعی</option>
+              <option value="healthService" <%= formData.insurance === 'healthService' ? 'selected' : '' %>>خدمات درمانی</option>
+              <option value="none" <%= formData.insurance === 'none' ? 'selected' : '' %>>فاقد بیمه</option>
+            </select>
+          </div>
+          
+          <!-- Support Org -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">نهاد حمایتی</label>
+            <select name="supportOrg" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="none" <%= formData.supportOrg === 'none' ? 'selected' : '' %>>نمی‌باشد</option>
+              <option value="behzisti" <%= formData.supportOrg === 'behzisti' ? 'selected' : '' %>>بهزیستی</option>
+              <option value="komite" <%= formData.supportOrg === 'komite' ? 'selected' : '' %>>کمیته امداد</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 5: Veteran Status -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-ribbon text-red-500 ml-2"></i>
+          وضعیت ایثارگری
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Is Veteran Family -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">خانواده ایثارگر</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="veteranNoLabel">
+                <input type="radio" name="isVeteranFamily" value="no" 
+                       <%= formData.isVeteranFamily === 'no' ? 'checked' : '' %> required class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-times-circle text-red-500 ml-2"></i>
+                  <span>نمی‌باشد</span>
+                </div>
+              </label>
+              <label class="radio-card flex items-center justify-center p-3 border-2 rounded-xl transition-all"
+                     id="veteranYesLabel">
+                <input type="radio" name="isVeteranFamily" value="yes" 
+                       <%= formData.isVeteranFamily === 'yes' ? 'checked' : '' %> class="hidden" />
+                <div class="flex items-center">
+                  <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                  <span>می‌باشد</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Veteran Priority -->
+          <% if (formData.isVeteranFamily === 'yes') { %>
+            <div>
+              <label class="block text-gray-700 mb-2 font-medium">اولویت ایثارگری</label>
+              <select name="veteranPriority" 
+                      class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+                <option value="">انتخاب کنید</option>
+                <option value="childOfMartyr" <%= formData.veteranPriority === 'childOfMartyr' ? 'selected' : '' %>>فرزند شهید</option>
+                <option value="childOfDisabledBelow25" <%= formData.veteranPriority === 'childOfDisabledBelow25' ? 'selected' : '' %>>فرزند جانباز زیر ۲۵ درصد</option>
+                <option value="childOfDisabledAbove25" <%= formData.veteranPriority === 'childOfDisabledAbove25' ? 'selected' : '' %>>فرزند جانباز بالای ۲۵ درصد</option>
+                <option value="childOfDisabledAbove50" <%= formData.veteranPriority === 'childOfDisabledAbove50' ? 'selected' : '' %>>فرزند جانباز بالای ۵۰ درصد</option>
+                <option value="childOfDisabledDeceased" <%= formData.veteranPriority === 'childOfDisabledDeceased' ? 'selected' : '' %>>فرزند جانباز متوفی</option>
+                <option value="childOfFreed" <%= formData.veteranPriority === 'childOfFreed' ? 'selected' : '' %>>فرزند آزاده</option>
+                <option value="childOfBasiji" <%= formData.veteranPriority === 'childOfBasiji' ? 'selected' : '' %>>فرزند رزمنده بسیجی</option>
+                <option value="brotherOfMartyr" <%= formData.veteranPriority === 'brotherOfMartyr' ? 'selected' : '' %>>برادر شهید</option>
+                <option value="grandchildOfMartyr" <%= formData.veteranPriority === 'grandchildOfMartyr' ? 'selected' : '' %>>نوه شهید</option>
+                <option value="nephewOfMartyr" <%= formData.veteranPriority === 'nephewOfMartyr' ? 'selected' : '' %>>برادرزاده یا خواهرزاده شهید</option>
+                <option value="others" <%= formData.veteranPriority === 'others' ? 'selected' : '' %>>سایرین</option>
+              </select>
+              <% if (formData.veteranPriority === 'others') { %>
+                <input type="text" name="veteranPriorityOthers" placeholder="اگر سایرین، قید شود" 
+                       value="<%= formData.veteranPriorityOthers || '' %>"
+                       class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary mt-2" />
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Section 6: Health Status -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-heartbeat text-pink-500 ml-2"></i>
+          وضعیت جسمانی
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Physical Status -->
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">وضعیت سلامت</label>
+            <select name="physicalStatus" required 
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="healthy" <%= formData.physicalStatus === 'healthy' ? 'selected' : '' %>>سالم</option>
+              <option value="disabled" <%= formData.physicalStatus === 'disabled' ? 'selected' : '' %>>بیمار/معلول</option>
+            </select>
+          </div>
+          
+          <!-- Disabilities -->
+          <% if (formData.physicalStatus === 'disabled') { %>
+            <div>
+              <label class="block text-gray-700 mb-2 font-medium">نوع بیماری/معلولیت</label>
+              <div class="grid grid-cols-2 gap-2">
+                <% ['معلول جسمی حرکتی', 'ناشنوا', 'نیمه شنوا', 'نیمه بینا', 'نابینا', 'صرع', 'آسم', 'بیماری قلبی', 'فشار خون', 'دیابت', 'اختلال یادگیری', 'پیش فعالی'].forEach(function(disease) { %>
+                  <label class="checkbox-item inline-flex items-center p-2 rounded cursor-pointer">
+                    <input type="checkbox" name="disabilities" value="<%= disease %>" 
+                           <%= (formData.disabilities || []).includes(disease) ? 'checked' : '' %>
+                           class="form-checkbox h-4 w-4 text-primary rounded focus:ring-primary">
+                    <span class="mr-2 text-sm"><%= disease %></span>
+                  </label>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+      <!-- Section 7: Additional Info -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-edit text-blue-500 ml-2"></i>
+          اطلاعات تکمیلی
+        </h2>
+        
+        <!-- Education Info -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">اطلاعات آموزشی</label>
+          <input type="text" name="educationInfo" 
+                 value="<%= formData.educationInfo || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                 placeholder="توضیح کوتاه">
+        </div>
+        
+        <!-- Additional Notes -->
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">توضیحات تکمیلی</label>
+          <textarea name="additionalNotes" 
+                    class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                    rows="3"><%= formData.additionalNotes || '' %></textarea>
+        </div>
+      </div>
+      
+      <!-- Submit Button -->
+      <div class="text-center mt-6">
+        <button type="submit"
+                class="btn-glow w-full max-w-xs mx-auto bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg">
+          <i class="fas fa-check ml-2"></i>
+          تکمیل ثبت‌نام
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Back Button -->
+  <a href="/step5" class="mt-6 text-primary font-medium flex items-center">
+    <i class="fas fa-arrow-right ml-1"></i>
+    بازگشت به مرحله قبل
+  </a>
+
+  <script>
+    // Toggle between options
+    const radioCards = document.querySelectorAll('.radio-card');
+    radioCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const input = this.querySelector('input');
+        if (input) {
+          input.checked = true;
+          document.querySelectorAll(`input[name="${input.name}"]`).forEach(inp => {
+            const parentLabel = inp.closest('.radio-card');
+            if (parentLabel) {
+              parentLabel.classList.remove('selected', 'border-primary');
+            }
+          });
+          this.classList.add('selected', 'border-primary');
+          
+          // Show/hide dependent fields
+          toggleDependentFields(input.name, input.value);
+        }
+      });
+    });
+
+    // Initialize selected radio cards
+    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+      const parentLabel = radio.closest('.radio-card');
+      if (parentLabel) {
+        parentLabel.classList.add('selected', 'border-primary');
+      }
+    });
+
+    // Function to toggle dependent fields
+    function toggleDependentFields(name, value) {
+      // Handle livingWith others field
+      if (name === 'livingWith') {
+        const othersField = document.querySelector('[name="livingWithOthers"]');
+        if (othersField) {
+          othersField.closest('div').style.display = value === 'others' ? 'block' : 'none';
+        }
+      }
+      
+      // Handle religion other field
+      if (name === 'religion') {
+        const religionOtherField = document.querySelector('[name="religionOther"]');
+        if (religionOtherField) {
+          religionOtherField.closest('div').style.display = value === 'other' ? 'block' : 'none';
+        }
+      }
+      
+      // Handle nationality country field
+      if (name === 'nationality') {
+        const countryField = document.querySelector('[name="nationalityCountry"]');
+        if (countryField) {
+          countryField.closest('div').style.display = value === 'nonIranian' ? 'block' : 'none';
+        }
+      }
+      
+      // Handle parent teacher fields
+      if (name === 'parentTeacher') {
+        const staffFields = document.querySelectorAll('[name="fatherStaffCode"], [name="motherStaffCode"]');
+        staffFields.forEach(field => {
+          field.closest('div').style.display = value === 'yes' ? 'block' : 'none';
+        });
+      }
+      
+      // Handle veteran priority fields
+      if (name === 'isVeteranFamily') {
+        const veteranPriorityFields = document.querySelectorAll('[name="veteranPriority"], [name="veteranPriorityOthers"]');
+        veteranPriorityFields.forEach(field => {
+          field.closest('div').style.display = value === 'yes' ? 'block' : 'none';
+        });
+      }
+      
+      // Handle physical status fields
+      if (name === 'physicalStatus') {
+        const disabilityFields = document.querySelectorAll('[name="disabilities"]');
+        disabilityFields.forEach(field => {
+          field.closest('div').style.display = value === 'disabled' ? 'block' : 'none';
+        });
+      }
+    }
+
+    // Initialize dependent fields
+    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+      toggleDependentFields(radio.name, radio.value);
+    });
+
+    // Handle checkbox changes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const dependentField = this.closest('div').nextElementSibling;
+        if (dependentField && dependentField.tagName === 'TEXTAREA') {
+          dependentField.style.display = this.checked ? 'block' : 'none';
+        }
+      });
+    });
+
+    // Initialize checkbox dependent fields
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      const dependentField = checkbox.closest('div').nextElementSibling;
+      if (dependentField && dependentField.tagName === 'TEXTAREA') {
+        dependentField.style.display = checkbox.checked ? 'block' : 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>

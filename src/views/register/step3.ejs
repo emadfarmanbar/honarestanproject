@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مرحله ۳: اطلاعات دانش‌آموز | سامانه ثبت‌نام هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+    .input-field {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .input-field:focus {
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.2);
+    }
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #4338ca 0%, #d97706 100%);
+      border-radius: 3px;
+    }
+    .select-arrow {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: left 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-4xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <!-- Decorative Elements -->
+    <div class="absolute -top-10 -right-10 w-20 h-20 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-secondary-light rounded-full opacity-10"></div>
+    
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-600">مرحله ۳ از ۴</span>
+        <span class="text-sm font-medium text-primary">۶۰% تکمیل شده</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="progress-bar h-2.5 rounded-full" style="width: 60%"></div>
+      </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 bg-white rounded-full shadow-neumorphism flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-user-graduate text-primary text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black text-gray-800 mb-2">
+        اطلاعات هویتی دانش‌آموز
+      </h1>
+      <p class="text-gray-600">لطفاً اطلاعات شناسنامه‌ای خود را با دقت وارد نمایید</p>
+    </div>
+    
+    <!-- Error Message -->
+    <% if (error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 flex items-start">
+        <i class="fas fa-exclamation-circle text-red-500 mt-1 ml-2"></i>
+        <div>
+          <p class="font-medium"><%= error %></p>
+          <p class="text-sm mt-1">لطفاً تمام فیلدهای ضروری را با اطلاعات صحیح تکمیل کنید</p>
+        </div>
+      </div>
+    <% } %>
+    
+    <!-- Form -->
+    <form method="POST" action="/step3" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Personal Info -->
+      <div class="space-y-4">
+        <div>
+          <label for="firstName" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-signature text-primary ml-2"></i>
+            نام
+          </label>
+          <input type="text"
+                 id="firstName"
+                 name="firstName"
+                 value="<%= formData.firstName || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="نام دانش‌آموز"
+                 required>
+        </div>
+        
+        <div>
+          <label for="fatherName" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-male text-primary ml-2"></i>
+            نام پدر
+          </label>
+          <input type="text"
+                 id="fatherName"
+                 name="fatherName"
+                 value="<%= formData.fatherName || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="نام کامل پدر"
+                 required>
+        </div>
+        
+        <div>
+          <label for="shenasnamehSerial" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-id-card text-primary ml-2"></i>
+            سریال شناسنامه
+          </label>
+          <input type="text"
+                 id="shenasnamehSerial"
+                 name="shenasnamehSerial"
+                 value="<%= formData.shenasnamehSerial || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="شماره سریال شناسنامه"
+                 required>
+        </div>
+        
+        <div>
+          <label for="birthPlace" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-city text-primary ml-2"></i>
+            شهر محل تولد
+          </label>
+          <input type="text"
+                 id="birthPlace"
+                 name="birthPlace"
+                 value="<%= formData.birthPlace || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="شهر محل تولد"
+                 required>
+        </div>
+      </div>
+      
+      <!-- Second Column -->
+      <div class="space-y-4">
+        <div>
+          <label for="lastName" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-signature text-primary ml-2"></i>
+            نام خانوادگی
+          </label>
+          <input type="text"
+                 id="lastName"
+                 name="lastName"
+                 value="<%= formData.lastName || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="نام خانوادگی دانش‌آموز"
+                 required>
+        </div>
+        
+        <div>
+          <label for="nationalId" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-id-badge text-primary ml-2"></i>
+            کد ملی
+          </label>
+          <input type="text"
+                 id="nationalId"
+                 name="nationalId"
+                 maxlength="10"
+                 pattern="\d{10}"
+                 value="<%= formData.nationalId || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="۱۰ رقم کد ملی"
+                 required>
+        </div>
+        
+        <div>
+          <label for="issuePlace" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-map-marker-alt text-primary ml-2"></i>
+            محل صدور شناسنامه
+          </label>
+          <input type="text"
+                 id="issuePlace"
+                 name="issuePlace"
+                 value="<%= formData.issuePlace || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 placeholder="محل صدور شناسنامه"
+                 required>
+        </div>
+        
+        <div>
+          <label for="birthDate" class="block text-right text-gray-700 mb-2 font-medium">
+            <i class="fas fa-calendar-alt text-primary ml-2"></i>
+            تاریخ تولد
+          </label>
+          <input type="date"
+                 id="birthDate"
+                 name="birthDate"
+                 value="<%= formData.birthDate || '' %>"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right placeholder-gray-400"
+                 required>
+        </div>
+      </div>
+      
+      <!-- Major Selection -->
+      <div class="md:col-span-2">
+        <label for="major" class="block text-right text-gray-700 mb-2 font-medium">
+          <i class="fas fa-graduation-cap text-primary ml-2"></i>
+          رشته مورد نظر
+        </label>
+        <select id="major"
+                name="major"
+                required
+                class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary text-right appearance-none">
+          <option value="">-- انتخاب رشته تحصیلی --</option>
+          <option value="کامپیوتر" <%= formData.major === 'کامپیوتر' ? 'selected' : '' %>>کامپیوتر</option>
+          <option value="برق" <%= formData.major === 'برق' ? 'selected' : '' %>>برق</option>
+          <option value="مکانیک" <%= formData.major === 'مکانیک' ? 'selected' : '' %>>مکانیک</option>
+          <option value="گرافیک" <%= formData.major === 'گرافیک' ? 'selected' : '' %>>گرافیک</option>
+        </select>
+      </div>
+      
+      <!-- Submit Button -->
+      <div class="md:col-span-2">
+        <button type="submit"
+                class="btn-glow w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg mt-4">
+          <i class="fas fa-arrow-left ml-2"></i>
+          ادامه به مرحله بعد
+        </button>
+      </div>
+    </form>
+    
+    <!-- Footer Note -->
+    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+      <p class="text-sm text-gray-500">
+        <i class="fas fa-info-circle text-primary ml-1"></i>
+        اطلاعات وارد شده باید مطابق با مدارک شناسایی باشد
+      </p>
+    </div>
+  </div>
+  
+  <!-- Back Button -->
+  <a href="/step2" class="mt-6 text-primary font-medium flex items-center">
+    <i class="fas fa-arrow-right ml-1"></i>
+    بازگشت به مرحله قبل
+  </a>
+
+</body>
+</html>

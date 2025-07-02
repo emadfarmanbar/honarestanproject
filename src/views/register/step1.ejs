@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ثبت‌نام هنرستان فنی و حرفه‌ای آسودگی | سال تحصیلی ۱۴۰۳-۱۴۰۴</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="سامانه هوشمند ثبت‌نام هنرستان آسودگی - ارائه دهنده بهترین آموزش‌های فنی و حرفه‌ای">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-2xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <!-- Decorative Elements -->
+    <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary-light rounded-full opacity-10"></div>
+    
+    <!-- Logo Section -->
+    <div class="flex flex-col items-center mb-8 relative z-10">
+      <div class="w-28 h-28 bg-white rounded-full shadow-neumorphism flex items-center justify-center mb-4">
+        <img src="/images/school-logo.png" alt="لوگوی هنرستان آسودگی" class="w-20 h-20 object-contain">
+      </div>
+      <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
+          هنرستان آسودگی
+        </h1>
+        <p class="text-gray-600 font-medium">مدرسه فنی و حرفه‌ای نمونه استان</p>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="relative z-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        <i class="fas fa-user-graduate text-secondary mr-2"></i>
+        سامانه هوشمند ثبت‌نام سال تحصیلی ۱۴۰۳-۱۴۰۴
+      </h2>
+      
+      <div class="bg-white/80 rounded-xl p-6 mb-8 shadow-neumorphism">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <div class="flex-1 border-t border-gray-300"></div>
+          <span class="text-gray-500 font-medium">مشخصات مدیریت</span>
+          <div class="flex-1 border-t border-gray-300"></div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="flex items-center">
+            <i class="fas fa-user-tie text-primary text-xl ml-2"></i>
+            <span class="font-medium">مدیر هنرستان: جناب آقای ...</span>
+          </div>
+          <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
+          <div class="flex items-center">
+            <i class="fas fa-phone-alt text-primary text-xl ml-2"></i>
+            <span class="font-medium">تلفن تماس: ۰۲۱-۱۲۳۴۵۶۷۸</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Features Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="feature-card">
+          <i class="fas fa-laptop-code text-primary text-2xl mb-2"></i>
+          <span>آموزش‌های تخصصی</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-chalkboard-teacher text-primary text-2xl mb-2"></i>
+          <span>اساتید مجرب</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-certificate text-primary text-2xl mb-2"></i>
+          <span>مدارک معتبر</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-briefcase text-primary text-2xl mb-2"></i>
+          <span>همکاری با صنعت</span>
+        </div>
+      </div>
+      
+      <!-- CTA Button -->
+      <div class="flex flex-col items-center">
+        <a href="/step2" class="btn-primary mb-4">
+          شروع فرآیند ثبت‌نام
+          <i class="fas fa-arrow-left mr-2"></i>
+        </a>
+        <p class="text-sm text-gray-500">
+          <i class="fas fa-clock mr-1"></i>
+          زمان باقی‌مانده تا پایان ثبت‌نام: ۷ روز
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="mt-8 text-center text-gray-500 text-sm">
+    <p>تمامی حقوق برای هنرستان فنی و حرفه‌ای آسودگی محفوظ است © ۱۴۰۳</p>
+    <div class="flex justify-center gap-4 mt-2">
+      <a href="#" class="hover:text-primary transition"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="hover:text-primary transition"><i class="fab fa-telegram"></i></a>
+      <a href="#" class="hover:text-primary transition"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مرحله ۴: اطلاعات والدین/سرپرست | سامانه ثبت‌نام هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+    .input-field {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+    .input-field:focus {
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.2);
+    }
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #4338ca 0%, #d97706 100%);
+      border-radius: 3px;
+    }
+    .radio-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .radio-card:hover {
+      transform: translateY(-2px);
+    }
+    .radio-card.selected {
+      border-color: #4338ca;
+      background-color: rgba(67, 56, 202, 0.05);
+    }
+    .select-arrow {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: left 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-4xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <form method="POST" action="/step4" class="space-y-6"></form>
+    <!-- Decorative Elements -->
+    <div class="absolute -top-10 -right-10 w-20 h-20 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-secondary-light rounded-full opacity-10"></div>
+    
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-600">مرحله ۴ از ۴</span>
+        <span class="text-sm font-medium text-primary">۸۰% تکمیل شده</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="progress-bar h-2.5 rounded-full" style="width: 80%"></div>
+      </div>
+    </div>
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 bg-white rounded-full shadow-neumorphism flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-users text-primary text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black text-gray-800 mb-2">
+        وضعیت خانوادگی دانش‌آموز
+      </h1>
+      <p class="text-gray-600">لطفاً وضعیت والدین خود را مشخص نمایید</p>
+    </div>
+    
+    <!-- Divorce Question -->
+    <div class="mb-8">
+      <h2 class="text-lg font-bold text-gray-700 mb-4 text-center">
+        <i class="fas fa-heart text-red-500 ml-2"></i>
+        آیا والدین شما طلاق گرفته‌اند؟
+      </h2>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-6">
+        <label class="radio-card flex-1 max-w-xs border-2 rounded-xl p-6 text-center transition-all"
+               id="noDivorceLabel">
+          <input type="radio" name="divorced" value="no" checked class="hidden" />
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-heart text-green-600 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-1">خانواده عادی</h3>
+          <p class="text-gray-600 text-sm">والدین من طلاق نگرفته‌اند</p>
+        </label>
+        
+        <label class="radio-card flex-1 max-w-xs border-2 rounded-xl p-6 text-center transition-all"
+               id="yesDivorceLabel">
+          <input type="radio" name="divorced" value="yes" class="hidden" />
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-heart-broken text-red-600 text-xl"></i>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-1">والدین مطلقه</h3>
+          <p class="text-gray-600 text-sm">والدین من از هم جدا شده‌اند</p>
+        </label>
+      </div>
+    </div>
+    
+    <!-- Parents Info (Default Visible) -->
+    <div id="parentsInfo" class="space-y-6">
+      <!-- Father Info -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-male text-blue-500 ml-2"></i>
+          اطلاعات پدر
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">نام پدر</label>
+            <input type="text" name="father_name" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">نام خانوادگی پدر</label>
+            <input type="text" name="father_lastname" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">کد ملی پدر</label>
+            <input type="text" name="father_national_code" pattern="\d{10}" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">شماره شناسنامه پدر</label>
+            <input type="text" name="father_birth_certificate" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">تاریخ تولد پدر</label>
+            <input type="date" name="father_birth_date" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">مدرک تحصیلی</label>
+            <select name="father_education" required
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="دیپلم">دیپلم</option>
+              <option value="فوق دیپلم">فوق دیپلم</option>
+              <option value="لیسانس">لیسانس</option>
+              <option value="فوق لیسانس">فوق لیسانس</option>
+              <option value="دکترا">دکترا</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">شغل پدر</label>
+            <input type="text" name="father_job" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">تلفن محل کار</label>
+            <input type="tel" name="father_work_phone" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-gray-700 mb-2 font-medium">آدرس محل کار</label>
+            <input type="text" name="father_work_address" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mother Info -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-female text-pink-500 ml-2"></i>
+          اطلاعات مادر
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">نام مادر</label>
+            <input type="text" name="mother_name" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">نام خانوادگی مادر</label>
+            <input type="text" name="mother_lastname" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">کد ملی مادر</label>
+            <input type="text" name="mother_national_code" pattern="\d{10}" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">شماره شناسنامه مادر</label>
+            <input type="text" name="mother_birth_certificate" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">تاریخ تولد مادر</label>
+            <input type="date" name="mother_birth_date" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">مدرک تحصیلی</label>
+            <select name="mother_education" required
+                    class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+              <option value="">انتخاب کنید</option>
+              <option value="دیپلم">دیپلم</option>
+              <option value="فوق دیپلم">فوق دیپلم</option>
+              <option value="لیسانس">لیسانس</option>
+              <option value="فوق لیسانس">فوق لیسانس</option>
+              <option value="دکترا">دکترا</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">شغل مادر</label>
+            <input type="text" name="mother_job" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div>
+            <label class="block text-gray-700 mb-2 font-medium">تلفن محل کار</label>
+            <input type="tel" name="mother_work_phone" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-gray-700 mb-2 font-medium">آدرس محل کار</label>
+            <input type="text" name="mother_work_address" required
+                   class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Guardian Info (Hidden by Default) -->
+    <div id="guardianInfo" class="hidden bg-white/80 rounded-xl p-6 shadow-neumorphism">
+      <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-user-shield text-purple-500 ml-2"></i>
+        اطلاعات سرپرست قانونی
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">نام سرپرست</label>
+          <input type="text" name="guardian_name"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">نام خانوادگی سرپرست</label>
+          <input type="text" name="guardian_lastname"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">کد ملی سرپرست</label>
+          <input type="text" name="guardian_national_code" pattern="\d{10}"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">شماره شناسنامه سرپرست</label>
+          <input type="text" name="guardian_birth_certificate"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">تاریخ تولد سرپرست</label>
+          <input type="date" name="guardian_birth_date"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">مدرک تحصیلی</label>
+          <select name="guardian_education"
+                  class="select-arrow input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+            <option value="">انتخاب کنید</option>
+            <option value="دیپلم">دیپلم</option>
+            <option value="فوق دیپلم">فوق دیپلم</option>
+            <option value="لیسانس">لیسانس</option>
+            <option value="فوق لیسانس">فوق لیسانس</option>
+            <option value="دکترا">دکترا</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">شغل سرپرست</label>
+          <input type="text" name="guardian_job"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div>
+          <label class="block text-gray-700 mb-2 font-medium">تلفن محل کار</label>
+          <input type="tel" name="guardian_work_phone"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-gray-700 mb-2 font-medium">آدرس محل کار</label>
+          <input type="text" name="guardian_work_address"
+                 class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Submit Button -->
+      <div class="mt-8 text-center">
+        <button type="submit"
+                class="btn-glow w-full max-w-xs mx-auto bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg">
+          <i class="fas fa-arrow-left ml-2"></i>
+          ادامه به مرحله نهایی
+        </button>
+      </div>
+  </form>
+  </div>
+  
+  <!-- Back Button -->
+  <a href="/step3" class="mt-6 text-primary font-medium flex items-center">
+    <i class="fas fa-arrow-right ml-1"></i>
+    بازگشت به مرحله قبل
+  </a>
+
+  <script>
+    // Toggle between parents and guardian forms
+    const noDivorceLabel = document.getElementById('noDivorceLabel');
+    const yesDivorceLabel = document.getElementById('yesDivorceLabel');
+    const parentsInfo = document.getElementById('parentsInfo');
+    const guardianInfo = document.getElementById('guardianInfo');
+    
+    // Radio inputs
+    const noDivorceRadio = noDivorceLabel.querySelector('input');
+    const yesDivorceRadio = yesDivorceLabel.querySelector('input');
+    
+    // Add event listeners
+    noDivorceLabel.addEventListener('click', () => {
+      noDivorceRadio.checked = true;
+      updateForms();
+    });
+    
+    yesDivorceLabel.addEventListener('click', () => {
+      yesDivorceRadio.checked = true;
+      updateForms();
+    });
+    
+    function updateForms() {
+      if (noDivorceRadio.checked) {
+        noDivorceLabel.classList.add('selected', 'border-primary');
+        yesDivorceLabel.classList.remove('selected', 'border-primary');
+        parentsInfo.classList.remove('hidden');
+        guardianInfo.classList.add('hidden');
+        
+        // Set required for parents form
+        Array.from(parentsInfo.querySelectorAll('input, select')).forEach(el => el.required = true);
+        Array.from(guardianInfo.querySelectorAll('input, select')).forEach(el => el.required = false);
+      } else {
+        noDivorceLabel.classList.remove('selected', 'border-primary');
+        yesDivorceLabel.classList.add('selected', 'border-primary');
+        parentsInfo.classList.add('hidden');
+        guardianInfo.classList.remove('hidden');
+        
+        // Set required for guardian form
+        Array.from(parentsInfo.querySelectorAll('input, select')).forEach(el => el.required = false);
+        Array.from(guardianInfo.querySelectorAll('input, select')).forEach(el => el.required = true);
+      }
+    }
+    
+    // Initialize
+    updateForms();
+  </script>
+
+</body>
+</html>
