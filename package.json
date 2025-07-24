@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "start cmd /k \"npm run dev:css\" && npm run dev:server",
     "dev:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/dist/css/tailwind.css --watch",
     "dev:server": "nodemon app.js"
