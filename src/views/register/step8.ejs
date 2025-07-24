@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>مرحله ۸: پرداخت شهریه و همکاری اولیاء | سامانه ثبت‌نام هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+
+    .input-field {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .input-field:focus {
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.2);
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #4338ca 0%, #d97706 100%);
+      border-radius: 3px;
+    }
+
+    .checkbox-item:hover {
+      background-color: rgba(67, 56, 202, 0.05);
+    }
+
+    .radio-card {
+      transition: all 0.3s ease;
+    }
+
+    .radio-card input:checked + .radio-label {
+      background-color: rgba(67, 56, 202, 0.1);
+      border-color: #4338ca;
+      color: #4338ca;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-4xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <!-- Decorative Elements -->
+    <div class="absolute -top-10 -right-10 w-20 h-20 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-secondary-light rounded-full opacity-10"></div>
+
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-600">مرحله ۸ از ۸</span>
+        <span class="text-sm font-medium text-primary">۱۰۰% تکمیل شده</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="progress-bar h-2.5 rounded-full" style="width: 100%"></div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-16 h-16 bg-white rounded-full shadow-neumorphism flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-money-bill-wave text-primary text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-black text-gray-800 mb-2">
+        پرداخت شهریه و همکاری اولیاء
+      </h1>
+      <p class="text-gray-600">لطفاً اطلاعات پرداخت و همکاری را با دقت وارد کنید</p>
+    </div>
+
+    <!-- Error Message -->
+    <% if (error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 flex items-start">
+        <i class="fas fa-exclamation-circle text-red-500 mt-1 ml-2"></i>
+        <div>
+          <ul class="list-disc mr-4">
+            <% error.split(' ').forEach(err => { %>
+              <li><%= err %></li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Form -->
+    <form method="POST" action="/step8" class="space-y-6">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <!-- Tuition Fee Payment Section -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-money-check-alt text-blue-500 ml-2"></i>
+          پرداخت شهریه
+        </h2>
+        <p class="text-gray-600 mb-4">
+          مبلغ شهریه: <span class="font-bold">۸,۰۰۰,۰۰۰ تومان</span><br>
+          لطفاً یکی از روش‌های پرداخت نقدی یا چکی را انتخاب کنید.
+        </p>
+
+        <!-- Payment Method Selection -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">روش پرداخت</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="paymentMethod" value="cash" <%= formData.paymentMethod === 'cash' ? 'checked' : '' %>
+                class="hidden" required aria-label="پرداخت نقدی">
+              <span class="radio-label w-full text-sm font-medium">پرداخت نقدی</span>
+            </label>
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="paymentMethod" value="check" <%= formData.paymentMethod === 'check' ? 'checked' : '' %>
+                class="hidden" required aria-label="پرداخت چکی">
+              <span class="radio-label w-full text-sm font-medium">پرداخت چکی</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Cash Payment Details -->
+        <div id="cashPayment" class="payment-details hidden fade-in">
+          <p class="text-gray-600 mb-4">
+            هرگونه پرداخت وجه نقدی باید به کارت‌خوان مستقر در هنرستان متصل به حساب دولتی نزد بانک ملی شعبه مرکزی کاشان به شماره حساب
+            <span class="font-bold">4150054059005</span> یا به شماره کارت مجازی همین حساب
+            <span class="font-bold">6037-9932-9975-4218</span> واریز گردد.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+              <thead>
+                <tr class="bg-primary/10">
+                  <th class="p-3 font-medium">ردیف</th>
+                  <th class="p-3 font-medium">مبلغ (ریال)</th>
+                  <th class="p-3 font-medium">تاریخ</th>
+                  <th class="p-3 font-medium">کد رهگیری کارت‌خوان/کارت الکترونیکی</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-3 border-b">۱</td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="cashAmount" value="<%= formData.cashAmount || '80000000' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="مبلغ به ریال" pattern="[0-9]*">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="date" name="cashDate" value="<%= formData.cashDate || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="cashTrackingCode" value="<%= formData.cashTrackingCode || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="کد رهگیری">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Check Payment Details -->
+        <div id="checkPayment" class="payment-details hidden fade-in">
+          <p class="text-gray-600 mb-4">
+            مبلغ نقدی: <span class="font-bold">۲,۰۰۰,۰۰۰ تومان</span><br>
+            مبلغ چک: <span class="font-bold">۶,۰۰۰,۰۰۰ تومان</span><br>
+            کلیه چک‌های صادره باید در وجه هنرستان آسودگی کاشان با شناسه حقوقی <span class="font-bold">14002095320</span> ثبت گردد.
+          </p>
+          <!-- Cash Portion for Check Payment -->
+          <h3 class="text-lg font-semibold mb-2">پرداخت نقدی (۲,۰۰۰,۰۰۰ تومان)</h3>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-right border-collapse">
+              <thead>
+                <tr class="bg-primary/10">
+                  <th class="p-3 font-medium">ردیف</th>
+                  <th class="p-3 font-medium">مبلغ (ریال)</th>
+                  <th class="p-3 font-medium">تاریخ</th>
+                  <th class="p-3 font-medium">کد رهگیری کارت‌خوان/کارت الکترونیکی</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-3 border-b">۱</td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkCashAmount" value="<%= formData.checkCashAmount || '20000000' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="مبلغ به ریال" pattern="[0-9]*">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="date" name="checkCashDate" value="<%= formData.checkCashDate || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkCashTrackingCode" value="<%= formData.checkCashTrackingCode || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="کد رهگیری">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Check Portion -->
+          <h3 class="text-lg font-semibold mb-2">پرداخت چکی (۶,۰۰۰,۰۰۰ تومان)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+              <thead>
+                <tr class="bg-primary/10">
+                  <th class="p-3 font-medium">ردیف</th>
+                  <th class="p-3 font-medium">مبلغ (ریال)</th>
+                  <th class="p-3 font-medium">تاریخ وصول چک</th>
+                  <th class="p-3 font-medium">شناسه صیادی</th>
+                  <th class="p-3 font-medium">بانک عامل</th>
+                  <th class="p-3 font-medium">شماره شبای حساب</th>
+                  <th class="p-3 font-medium">نام صاحب حساب</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-3 border-b">۱</td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkAmount" value="<%= formData.checkAmount || '60000000' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="مبلغ چک به ریال" pattern="[0-9]*">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="date" name="checkDate" value="<%= formData.checkDate || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkTrackingCode" value="<%= formData.checkTrackingCode || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="شناسه صیادی">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkBank" value="<%= formData.checkBank || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="بانک عامل">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkShaba" value="<%= formData.checkShaba || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="شماره شبا">
+                  </td>
+                  <td class="p-3 border-b">
+                    <input type="text" name="checkAccountHolder" value="<%= formData.checkAccountHolder || '' %>"
+                      class="input-field w-full px-4 py-2 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+                      placeholder="نام صاحب حساب">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parent Cooperation Section -->
+      <div class="bg-white/80 rounded-xl p-6 shadow-neumorphism">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-users text-blue-500 ml-2"></i>
+          همکاری اولیاء در قالب اعضای انجمن هنرستان
+        </h2>
+        <p class="text-gray-600 mb-4">
+          هنرستان آسودگی در نظر دارد از همفکری و توانمندی اولیاء در راستای بهبود و ارتقای برنامه‌های آموزشی و پرورشی مجموعه بهره‌مند گردد. در صورت تمایل برای همکاری، اطلاعات خواسته‌شده را تکمیل کنید.
+        </p>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-medium">تمایل به همکاری</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="cooperation" value="no" <%= formData.cooperation === 'no' ? 'checked' : '' %>
+                class="hidden" required aria-label="تمایل به همکاری ندارم">
+              <span class="radio-label w-full text-sm font-medium">تمایل به همکاری در امور اجرایی هنرستان را ندارم</span>
+            </label>
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="cooperation" value="yes" <%= formData.cooperation === 'yes' ? 'checked' : '' %>
+                class="hidden" required aria-label="تمایل به همکاری دارم">
+              <span class="radio-label w-full text-sm font-medium">تمایل به همکاری در امور اجرایی هنرستان را دارم</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="cooperationDetails" class="hidden fade-in">
+          <label class="block text-gray-700 mb-2 font-medium">زمینه‌های همکاری</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="association" <%= formData.cooperationFields && formData.cooperationFields.includes('association') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">عضویت در انجمن اولیاء و مربیان</span>
+            </label>
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="educational" <%= formData.cooperationFields && formData.cooperationFields.includes('educational') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">همکاری در امور آموزشی</span>
+            </label>
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="cultural" <%= formData.cooperationFields && formData.cooperationFields.includes('cultural') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">همکاری در امور پرورشی</span>
+            </label>
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="health" <%= formData.cooperationFields && formData.cooperationFields.includes('health') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">همکاری در امور بهداشتی</span>
+            </label>
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="financial" <%= formData.cooperationFields && formData.cooperationFields.includes('financial') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">همکاری در امور مالی و عمرانی</span>
+            </label>
+            <label class="checkbox-item flex items-center p-2 rounded cursor-pointer hover:bg-primary/5">
+              <input type="checkbox" name="cooperationFields[]" value="culturalEvents" <%= formData.cooperationFields && formData.cooperationFields.includes('culturalEvents') ? 'checked' : '' %>
+                class="form-checkbox h-5 w-5 text-primary rounded focus:ring-primary">
+              <span class="mr-2 text-sm font-medium">همکاری در اجرای برنامه‌های فرهنگی و هنری</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-gray-700 mb-2 font-medium">آیا خیری برای مساعدت می‌شناسید؟</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="knowsBenefactor" value="no" <%= formData.knowsBenefactor === 'no' ? 'checked' : '' %>
+                class="hidden" required aria-label="خیری نمی‌شناسم">
+              <span class="radio-label w-full text-sm font-medium">نمی‌شناسم</span>
+            </label>
+            <label class="radio-card flex items-center p-4 border rounded-xl cursor-pointer hover:bg-primary/5">
+              <input type="radio" name="knowsBenefactor" value="yes" <%= formData.knowsBenefactor === 'yes' ? 'checked' : '' %>
+                class="hidden" required aria-label="خیری می‌شناسم">
+              <span class="radio-label w-full text-sm font-medium">می‌شناسم</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="benefactorDetails" class="hidden fade-in">
+          <label class="block text-gray-700 mb-2 font-medium">مشخصات و تلفن تماس خیر</label>
+          <input type="text" name="benefactorInfo" value="<%= formData.benefactorInfo || '' %>"
+            class="input-field w-full px-4 py-3 rounded-xl border-0 shadow-neumorphism-inset focus:ring-2 focus:ring-primary"
+            placeholder="نام، نام خانوادگی و شماره تماس خیر">
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center mt-6">
+        <button type="submit"
+          class="btn-glow w-full max-w-xs mx-auto bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg">
+          <i class="fas fa-check ml-2"></i>
+          تأیید و ادامه
+        </button>
+      </div>
+    </form>
+
+    <!-- Back Button -->
+    <a href="/step7" class="mt-6 text-primary font-medium flex items-center">
+      <i class="fas fa-arrow-right ml-1"></i>
+      بازگشت به مرحله قبل
+    </a>
+  </div>
+
+  <script>
+    // Configurable tuition fees (in Rials)
+    const TUITION_FEE = 80000000; // 8,000,000 Toman
+    const CASH_CHECK_AMOUNT = 20000000; // 2,000,000 Toman for check payment
+    const CHECK_AMOUNT = 60000000; // 6,000,000 Toman for check
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+      const cashPaymentDiv = document.querySelector('#cashPayment');
+      const checkPaymentDiv = document.querySelector('#checkPayment');
+      const cooperationRadios = document.querySelectorAll('input[name="cooperation"]');
+      const cooperationDetails = document.querySelector('#cooperationDetails');
+      const knowsBenefactorRadios = document.querySelectorAll('input[name="knowsBenefactor"]');
+      const benefactorDetails = document.querySelector('#benefactorDetails');
+
+      // Toggle payment method details
+      function togglePaymentDetails() {
+        const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+        cashPaymentDiv.classList.toggle('hidden', selectedMethod !== 'cash');
+        checkPaymentDiv.classList.toggle('hidden', selectedMethod !== 'check');
+        cashPaymentDiv.classList.toggle('fade-in', selectedMethod === 'cash');
+        checkPaymentDiv.classList.toggle('fade-in', selectedMethod === 'check');
+      }
+
+      // Toggle cooperation details
+      function toggleCooperationDetails() {
+        const cooperation = document.querySelector('input[name="cooperation"]:checked')?.value;
+        cooperationDetails.classList.toggle('hidden', cooperation !== 'yes');
+        cooperationDetails.classList.toggle('fade-in', cooperation === 'yes');
+      }
+
+      // Toggle benefactor details
+      function toggleBenefactorDetails() {
+        const knowsBenefactor = document.querySelector('input[name="knowsBenefactor"]:checked')?.value;
+        benefactorDetails.classList.toggle('hidden', knowsBenefactor !== 'yes');
+        benefactorDetails.classList.toggle('fade-in', knowsBenefactor === 'yes');
+      }
+
+      // Initialize visibility
+      togglePaymentDetails();
+      toggleCooperationDetails();
+      toggleBenefactorDetails();
+
+      // Event listeners
+      paymentMethodRadios.forEach(radio => radio.addEventListener('change', togglePaymentDetails));
+      cooperationRadios.forEach(radio => radio.addEventListener('change', toggleCooperationDetails));
+      knowsBenefactorRadios.forEach(radio => radio.addEventListener('change', toggleBenefactorDetails));
+
+      // Validate amounts on input
+      const cashAmountInput = document.querySelector('input[name="cashAmount"]');
+      const checkCashAmountInput = document.querySelector('input[name="checkCashAmount"]');
+      const checkAmountInput = document.querySelector('input[name="checkAmount"]');
+
+      if (cashAmountInput) {
+        cashAmountInput.addEventListener('input', function () {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if (parseInt(this.value) > TUITION_FEE) this.value = TUITION_FEE;
+        });
+      }
+
+      if (checkCashAmountInput) {
+        checkCashAmountInput.addEventListener('input', function () {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if (parseInt(this.value) > CASH_CHECK_AMOUNT) this.value = CASH_CHECK_AMOUNT;
+        });
+      }
+
+      if (checkAmountInput) {
+        checkAmountInput.addEventListener('input', function () {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          if (parseInt(this.value) > CHECK_AMOUNT) this.value = CHECK_AMOUNT;
+        });
+      }
+
+      // Add loading effect on submit
+      form.addEventListener('submit', function () {
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> در حال ارسال...';
+        submitBtn.disabled = true;
+      });
+    });
+  </script>
+</body>
+
+</html>

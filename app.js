@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const session = require('express-session');
 const morgan = require('morgan');
 const csrf = require('csurf');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
@@ -13,52 +14,111 @@ const PORT = process.env.PORT || 3000;
 // تنظیم EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
-
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 // میدل‌ورها
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.tailwindcss.com",
+          "https://cdnjs.cloudflare.com",
+          "https://unpkg.com",
+          "https://tile.openstreetmap.ir",
+          "https://cdn.jsdelivr.net/npm/jalaali-js@1.2.6/dist/jalaali.min.js",
+          "https://code.jquery.com",
+          "https://docs.opencv.org", // برای OpenCV.js
+          "https://kit.fontawesome.com" // برای Font Awesome
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.tailwindcss.com",
+          "https://cdnjs.cloudflare.com",
+          "https://fonts.googleapis.com",
+          "https://unpkg.com",
+          "https://tile.openstreetmap.ir",
+          "https://cdn.jsdelivr.net/npm/jalaali-js@1.2.6/dist/jalaali.min.js",
+          "https://code.jquery.com",
+          "https://kit.fontawesome.com" // برای Font Awesome
+        ],
+        fontSrc: [
+          "'self'",
+          "data:",
+          "https://fonts.gstatic.com",
+          "https://cdnjs.cloudflare.com",
+          "https://cdn.tailwindcss.com",
+          "https://unpkg.com",
+          "https://tile.openstreetmap.ir",
+          "https://kit.fontawesome.com" // برای Font Awesome
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https:"
+        ],
+        connectSrc: ["'self'"],
+        frameAncestors: ["'none'"],
+        formAction: ["'self'"]
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "same-site" }
+  })
+);
+
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'mysecret',
+    secret: process.env.SESSION_SECRET || 'mydevsecret123456',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false, // در production مقدار را true و از HTTPS استفاده کنید
-      maxAge: 1000 * 60 * 60, // 1 ساعت
-    },
+    cookie: { maxAge: 15 * 60 * 1000 } // 15 دقیقه
   })
 );
 
 // فعال‌سازی CSRF
 app.use(csrf());
 
-// ارسال توکن CSRF به همه viewها
+// ارسال csrf token به همه viewها
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
   next();
 });
 
-// روت‌ها
+// اتصال به MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/honarestan-register', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// روت‌های ثبت‌نام
 const registerRoutes = require('./src/routes/register');
 app.use('/', registerRoutes);
 
-// هندل خطاهای ۴۰۴
-app.use((req, res, next) => {
+// هندل خطای ۴۰۴
+app.use((req, res) => {
   res.status(404).render('404');
 });
 
-// هندل خطاهای ۵۰۰
+// هندل خطاهای عمومی
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render('error', { error: err });
 });
 
-// استارت
+// استارت سرور
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });

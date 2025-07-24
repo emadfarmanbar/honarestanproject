@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
-  <title>ثبت‌نام هنرستان فنی و حرفه‌ای آسودگی | سال تحصیلی ۱۴۰۳-۱۴۰۴</title>
+  <title>ثبت‌نام هنرستان فنی و حرفه‌ای آسودگی | سال تحصیلی ۱۴۰۴-۱۴۰۵</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="سامانه هوشمند ثبت‌نام هنرستان آسودگی - ارائه دهنده بهترین آموزش‌های فنی و حرفه‌ای">
+  <meta name="description" content="سامانه هوشمند ثبت‌نام هنرستان فنی و حرفه‌ای آسودگی کاشان - ارائه‌دهنده آموزش‌های برتر فنی و حرفه‌ای برای سال تحصیلی ۱۴۰۴-۱۴۰۵">
+  <meta name="keywords" content="هنرستان آسودگی, ثبت‌نام هنرستان, آموزش فنی و حرفه‌ای, کاشان, سال تحصیلی ۱۴۰۴-۱۴۰۵">
+  <meta name="author" content="هنرستان آسودگی کاشان">
+  <meta property="og:title" content="ثبت‌نام هنرستان آسودگی ۱۴۰۴-۱۴۰۵">
+  <meta property="og:description" content="سامانه هوشمند ثبت‌نام هنرستان فنی و حرفه‌ای آسودگی کاشان برای سال تحصیلی ۱۴۰۴-۱۴۰۵">
+  <meta property="og:image" content="/images/school-logo.png">
+  <meta property="og:url" content="https://asoodagi-school.com">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Google Fonts - Vazir -->
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Jalaali JS for Persian Date -->
+  <script src="/js/jalaali.js"></script>
   <!-- Tailwind Config -->
   <script>
     tailwind.config = {
@@ -43,6 +54,7 @@
     body {
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
     }
+
     .glass-card {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
@@ -50,95 +62,147 @@
       border-radius: 1rem;
       border: 1px solid rgba(255, 255, 255, 0.18);
     }
+
     .btn-glow:hover {
       box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
     }
+
+    .feature-card {
+      @apply bg-white/80 rounded-xl p-4 flex flex-col items-center justify-center shadow-neumorphism hover:shadow-neumorphism-inset transition cursor-pointer;
+    }
+
+    .btn-primary {
+      @apply bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-3 rounded-full font-bold flex items-center justify-center transition hover:bg-gradient-to-l hover:shadow-lg btn-glow;
+    }
+
+    .message-card {
+      @apply bg-white/80 rounded-xl p-6 shadow-neumorphism h-full flex flex-col;
+    }
   </style>
 </head>
+
 <body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
-  <!-- Main Card -->
-  <div class="glass-card w-full max-w-2xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
-    <!-- Decorative Elements -->
-    <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary-light rounded-full opacity-10"></div>
-    <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary-light rounded-full opacity-10"></div>
-    
-    <!-- Logo Section -->
-    <div class="flex flex-col items-center mb-8 relative z-10">
-      <div class="w-28 h-28 bg-white rounded-full shadow-neumorphism flex items-center justify-center mb-4">
-        <img src="/images/school-logo.png" alt="لوگوی هنرستان آسودگی" class="w-20 h-20 object-contain">
-      </div>
-      <div class="text-center">
-        <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
-          هنرستان آسودگی
-        </h1>
-        <p class="text-gray-600 font-medium">مدرسه فنی و حرفه‌ای نمونه استان</p>
+  <!-- Main Container -->
+  <div class="w-full max-w-6xl flex flex-col lg:flex-row gap-8">
+    <!-- Right Card (Message - Moved to Right) -->
+    <div class="glass-card w-full lg:w-1/2 p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+      <div class="message-card">
+        <h3 class="text-xl font-bold text-primary mb-4 border-b-2 border-primary pb-2">
+          <i class="fas fa-quote-right mr-2"></i>
+          پیام مدیریت محترم
+        </h3>
+        <div class="text-gray-700 leading-loose mb-6 flex-grow">
+          <p class="mb-4">
+            <span class="font-bold text-primary">به نام یزدان پاک</span><br>
+            ای همسفر، از اینکه برای سال تحصیلی جدید همراه و همقدم ما هستید به خود می‌بالیم و خداوندگار را سپاس می‌گوییم.
+          </p>
+          <p class="mb-4">
+            این دیار به بالندگی و رشد همه‌جانبه شما چشم امید دوخته و ما نیز در رسیدن به این هدف یاریتان خواهیم کرد.
+            در این مکتب "نمی‌توانیم" مدفون و پرچم "ما می‌توانیم" در اهتزاز است.
+          </p>
+          <p class="mb-4">
+            لحظه لحظه سفرمان با اندیشه و تفکر همراه و برای آن برنامه داریم. وقت شما را غنیمت شمرده و به بهای گزاف نیز
+            نمی‌فروشیم و چون معدن الماس، در تلاش ظاهر نمودن و به فعلیت در آوردن آن هستیم.
+          </p>
+          <p class="mb-4">
+            دبیران و کارکنان مدرسه چون امانتی بزرگ به تربیت و آموزش شما همت خواهند گمارد، سختی‌ها را با عشق به آینده
+            روشن در آغوش می‌گیریم و لحظات پر از خاطره را با هم رقم خواهیم زد.
+          </p>
+          <p>
+            با هم به این یقین می‌رسیم، که در هیچ جای جهان، برای ما، خبری نیست، اتفاقات همان جایی که ما هستیم می‌افتند.
+          </p>
+        </div>
+        <div class="text-left text-sm text-gray-500 mt-auto">
+          <p>مدیریت هنرستان آسودگی کاشان</p>
+          <p class="font-bold">سید حامد عزیزی کاشی</p>
+        </div>
       </div>
     </div>
-    
-    <!-- Main Content -->
-    <div class="relative z-10">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">
-        <i class="fas fa-user-graduate text-secondary mr-2"></i>
-        سامانه هوشمند ثبت‌نام سال تحصیلی ۱۴۰۳-۱۴۰۴
-      </h2>
-      
-      <div class="bg-white/80 rounded-xl p-6 mb-8 shadow-neumorphism">
-        <div class="flex items-center justify-center gap-4 mb-4">
-          <div class="flex-1 border-t border-gray-300"></div>
-          <span class="text-gray-500 font-medium">مشخصات مدیریت</span>
-          <div class="flex-1 border-t border-gray-300"></div>
+
+    <!-- Left Card (Form - Moved to Left) -->
+    <div class="glass-card w-full lg:w-1/2 p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+      <!-- Decorative Elements -->
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary-light rounded-full opacity-10"></div>
+      <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary-light rounded-full opacity-10"></div>
+
+      <!-- Logo Section -->
+      <div class="flex flex-col items-center mb-8 relative z-10">
+        <div class="w-28 h-28 bg-white rounded-full shadow-neumorphism flex items-center justify-center mb-4">
+          <img src="/images/school-logo.png" alt="لوگوی هنرستان آسودگی" class="w-20 h-20 object-contain">
         </div>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div class="flex items-center">
-            <i class="fas fa-user-tie text-primary text-xl ml-2"></i>
-            <span class="font-medium">مدیر هنرستان: جناب آقای ...</span>
-          </div>
-          <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
-          <div class="flex items-center">
-            <i class="fas fa-phone-alt text-primary text-xl ml-2"></i>
-            <span class="font-medium">تلفن تماس: ۰۲۱-۱۲۳۴۵۶۷۸</span>
-          </div>
+        <div class="text-center">
+          <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
+            هنرستان آسودگی
+          </h1>
+          <p class="text-gray-600 font-medium">مدرسه فنی و حرفه‌ای نمونه استان</p>
         </div>
       </div>
-      
-      <!-- Features Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="feature-card">
-          <i class="fas fa-laptop-code text-primary text-2xl mb-2"></i>
-          <span>آموزش‌های تخصصی</span>
+
+      <!-- Main Content -->
+      <div class="relative z-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+          <i class="fas fa-user-graduate text-secondary mr-2"></i>
+          سامانه هوشمند ثبت‌نام سال تحصیلی ۱۴۰۴-۱۴۰۵
+        </h2>
+
+        <div class="bg-white/80 rounded-xl p-6 mb-8 shadow-neumorphism">
+          <div class="flex items-center justify-center gap-4 mb-4">
+            <div class="flex-1 border-t border-gray-300"></div>
+            <span class="text-gray-500 font-medium">مشخصات مدیریت</span>
+            <div class="flex-1 border-t border-gray-300"></div>
+          </div>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div class="flex items-center">
+              <i class="fas fa-user-tie text-primary text-xl ml-2"></i>
+              <span class="font-medium">مدیر هنرستان: <br/> آقای سید حامد عزیزی کاشی</span>
+            </div>
+            <div class="hidden sm:block w-px h-6 bg-gray-300"></div>
+            <div class="flex items-center">
+              <i class="fas fa-phone-alt text-primary text-xl ml-2"></i>
+              <span class="font-medium">تلفن تماس: ۰۲۱-۱۲۳۴۵۶۷۸</span>
+            </div>
+          </div>
         </div>
-        <div class="feature-card">
-          <i class="fas fa-chalkboard-teacher text-primary text-2xl mb-2"></i>
-          <span>اساتید مجرب</span>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="feature-card">
+            <i class="fas fa-lightbulb text-primary text-2xl mb-2"></i>
+            <span>خلاقیت پایدار</span>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-gem text-primary text-2xl mb-2"></i>
+            <span>پرورش استعدادها</span>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-briefcase text-primary text-2xl mb-2"></i>
+            <span>موفقیت شغلی</span>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-sun text-primary text-2xl mb-2"></i>
+            <span>آینده‌ای روشن</span>
+          </div>
         </div>
-        <div class="feature-card">
-          <i class="fas fa-certificate text-primary text-2xl mb-2"></i>
-          <span>مدارک معتبر</span>
+
+        <!-- CTA Button -->
+        <div class="flex flex-col items-center">
+          <a href="/step2" class="btn-primary mb-4">
+            شروع فرآیند ثبت‌نام
+            <i class="fas fa-arrow-left mr-2"></i>
+          </a>
+          <p class="text-sm text-gray-500" id="countdown">
+            <i class="fas fa-clock mr-1"></i>
+            در حال محاسبه زمان باقی‌مانده...
+          </p>
         </div>
-        <div class="feature-card">
-          <i class="fas fa-briefcase text-primary text-2xl mb-2"></i>
-          <span>همکاری با صنعت</span>
-        </div>
-      </div>
-      
-      <!-- CTA Button -->
-      <div class="flex flex-col items-center">
-        <a href="/step2" class="btn-primary mb-4">
-          شروع فرآیند ثبت‌نام
-          <i class="fas fa-arrow-left mr-2"></i>
-        </a>
-        <p class="text-sm text-gray-500">
-          <i class="fas fa-clock mr-1"></i>
-          زمان باقی‌مانده تا پایان ثبت‌نام: ۷ روز
-        </p>
       </div>
     </div>
   </div>
-  
+
   <!-- Footer -->
   <div class="mt-8 text-center text-gray-500 text-sm">
-    <p>تمامی حقوق برای هنرستان فنی و حرفه‌ای آسودگی محفوظ است © ۱۴۰۳</p>
+    <p>تمامی حقوق برای هنرستان فنی و حرفه‌ای آسودگی محفوظ است © ۱۴۰۴</p>
     <div class="flex justify-center gap-4 mt-2">
       <a href="#" class="hover:text-primary transition"><i class="fab fa-instagram"></i></a>
       <a href="#" class="hover:text-primary transition"><i class="fab fa-telegram"></i></a>
@@ -146,5 +210,99 @@
     </div>
   </div>
 
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // بررسی وجود توابع jalaali-js
+      console.log('Checking jalaali-js functions:');
+      console.log('jalaaliToGregorian:', typeof jalaaliToGregorian);
+      console.log('gregorianToJalaali:', typeof gregorianToJalaali);
+
+      if (typeof jalaaliToGregorian === 'undefined' || typeof gregorianToJalaali === 'undefined') {
+        console.error('jalaali-js functions are not loaded.');
+        document.getElementById('countdown').innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i> خطا در بارگذاری تقویم شمسی. لطفاً صفحه را رفرش کنید.';
+        return;
+      }
+
+      // تاریخ پایان ثبت‌نام به صورت شمسی (سال، ماه، روز)
+      const endDateJalaali = { year: 1404, month: 5, day: 31 }; // 31 مرداد 1404
+
+      // تبدیل تاریخ شمسی به میلادی
+      let gregorianDate;
+      try {
+        gregorianDate = jalaaliToGregorian(endDateJalaali.year, endDateJalaali.month, endDateJalaali.day);
+        console.log('Gregorian Date:', gregorianDate);
+      } catch (error) {
+        console.error('Error in jalaaliToGregorian:', error.message);
+        document.getElementById('countdown').innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i> خطا در تبدیل تاریخ شمسی.';
+        return;
+      }
+
+      const endDate = new Date(gregorianDate.gy, gregorianDate.gm - 1, gregorianDate.gd);
+      if (isNaN(endDate)) {
+        console.error('Invalid endDate:', endDate);
+        document.getElementById('countdown').innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i> تاریخ پایان نامعتبر است.';
+        return;
+      }
+
+      // نام ماه‌های شمسی
+      const persianMonths = [
+        'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
+        'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
+      ];
+
+      // تابع نمایش تاریخ شمسی
+      function toPersianDate(date) {
+        if (!(date instanceof Date) || isNaN(date)) {
+          console.error('Invalid date input:', date);
+          return 'تاریخ نامعتبر';
+        }
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        if (isNaN(year) || isNaN(month) || isNaN(day)) {
+          console.error('Invalid date components:', year, month, day);
+          return 'تاریخ نامعتبر';
+        }
+        try {
+          const { jy, jm, jd } = gregorianToJalaali(year, month, day);
+          return `${jd} ${persianMonths[jm - 1]} ${jy}`;
+        } catch (error) {
+          console.error('Error in gregorianToJalaali:', error.message);
+          return 'خطا در تبدیل تاریخ';
+        }
+      }
+
+      // تابع محاسبه زمان باقی‌مانده
+      function updateCountdown() {
+        const now = new Date();
+        const diff = endDate - now;
+
+        if (diff <= 0) {
+          document.getElementById('countdown').innerHTML = '<i class="fas fa-clock mr-1"></i> مهلت ثبت‌نام به پایان رسیده است';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById('countdown').innerHTML = `
+          <i class="fas fa-clock mr-1"></i> 
+          زمان باقی‌مانده تا پایان ثبت‌نام: 
+          <span class="font-bold">${days}</span> روز و 
+          <span class="font-bold">${hours}</span> ساعت و 
+          <span class="font-bold">${minutes}</span> دقیقه 
+          <br>(تا تاریخ ${toPersianDate(endDate)})`;
+      }
+
+      // اولین بار تابع را اجرا می‌کنیم
+      updateCountdown();
+
+      // هر دقیقه تابع را به روز می‌کنیم
+      setInterval(updateCountdown, 60000);
+    });
+  </script>
+
 </body>
+
 </html>

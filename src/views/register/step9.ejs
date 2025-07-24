@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>آپلود مدارک | سامانه ثبت‌نام هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://docs.opencv.org/4.5.0/opencv.js" async></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <script nonce="<%= nonce %>">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style nonce="<%= nonce %>">
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .preview-img {
+      max-width: 200px;
+      max-height: 200px;
+      object-fit: contain;
+      margin-top: 0.5rem;
+    }
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+  <div class="glass-card w-full max-w-4xl p-8 shadow-2xl rounded-2xl">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">آپلود مدارک</h1>
+    <% if (error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <%= error %>
+      </div>
+    <% } %>
+    <form id="uploadForm" action="/register/step9" method="POST" enctype="multipart/form-data" class="space-y-6">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      
+      <!-- عکس پرسنلی -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">عکس پرسنلی ۴×۳ جدید (زمینه سفید، تمام رخ)</label>
+        <input type="file" name="studentPhoto" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" onchange="processAndPreviewImage(event, 'studentPhotoPreview', 'studentPhotoProcessed')">
+        <img id="studentPhotoPreview" class="preview-img hidden" alt="پیش‌نمایش عکس پرسنلی">
+        <input type="hidden" name="studentPhotoProcessed" id="studentPhotoProcessed">
+      </div>
+
+      <!-- صفحه اول شناسنامه هنرجو -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر صفحه اول شناسنامه هنرجو</label>
+        <input type="file" name="studentBirthCertificate" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'studentBirthCertificatePreview', 'studentBirthCertificateProcessed')">
+        <img id="studentBirthCertificatePreview" class="preview-img hidden" alt="پیش‌نمایش شناسنامه هنرجو">
+        <input type="hidden" name="studentBirthCertificateProcessed" id="studentBirthCertificateProcessed">
+      </div>
+
+      <!-- صفحه اول شناسنامه پدر -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر صفحه اول شناسنامه پدر</label>
+        <input type="file" name="fatherBirthCertificate" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'fatherBirthCertificatePreview', 'fatherBirthCertificateProcessed')">
+        <img id="fatherBirthCertificatePreview" class="preview-img hidden" alt="پیش‌نمایش شناسنامه پدر">
+        <input type="hidden" name="fatherBirthCertificateProcessed" id="fatherBirthCertificateProcessed">
+      </div>
+
+      <!-- صفحه اول شناسنامه مادر -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر صفحه اول شناسنامه مادر</label>
+        <input type="file" name="motherBirthCertificate" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'motherBirthCertificatePreview', 'motherBirthCertificateProcessed')">
+        <img id="motherBirthCertificatePreview" class="preview-img hidden" alt="پیش‌نمایش شناسنامه مادر">
+        <input type="hidden" name="motherBirthCertificateProcessed" id="motherBirthCertificateProcessed">
+      </div>
+
+      <!-- صفحه اول کارت ملی پدر -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر صفحه اول کارت ملی پدر</label>
+        <input type="file" name="fatherNationalCard" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'fatherNationalCardPreview', 'fatherNationalCardProcessed')">
+        <img id="fatherNationalCardPreview" class="preview-img hidden" alt="پیش‌نمایش کارت ملی پدر">
+        <input type="hidden" name="fatherNationalCardProcessed" id="fatherNationalCardProcessed">
+      </div>
+
+      <!-- صفحه اول کارت ملی مادر -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر صفحه اول کارت ملی مادر</label>
+        <input type="file" name="motherNationalCard" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'motherNationalCardPreview', 'motherNationalCardProcessed')">
+        <img id="motherNationalCardPreview" class="preview-img hidden" alt="پیش‌نمایش کارت ملی مادر">
+        <input type="hidden" name="motherNationalCardProcessed" id="motherNationalCardProcessed">
+      </div>
+
+      <!-- فرم هدایت تحصیلی -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر فرم هدایت تحصیلی</label>
+        <input type="file" name="guidanceForm" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'guidanceFormPreview', 'guidanceFormProcessed')">
+        <img id="guidanceFormPreview" class="preview-img hidden" alt="پیش‌نمایش فرم هدایت تحصیلی">
+        <input type="hidden" name="guidanceFormProcessed" id="guidanceFormProcessed">
+      </div>
+
+      <!-- کارنامه سال نهم -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر کارنامه سال نهم (به شرط فارغ‌التحصیلی)</label>
+        <input type="file" name="ninthGradeReport" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'ninthGradeReportPreview', 'ninthGradeReportProcessed')">
+        <img id="ninthGradeReportPreview" class="preview-img hidden" alt="پیش‌نمایش کارنامه">
+        <input type="hidden" name="ninthGradeReportProcessed" id="ninthGradeReportProcessed">
+      </div>
+
+      <!-- کارت واکسیناسیون -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">تصویر کارت واکسیناسیون</label>
+        <input type="file" name="vaccinationCard" accept="image/jpeg,image/png" class="w-full p-2 border rounded-lg" capture="camera" onchange="processAndPreviewImage(event, 'vaccinationCardPreview', 'vaccinationCardProcessed')">
+        <img id="vaccinationCardPreview" class="preview-img hidden" alt="پیش‌نمایش کارت واکسیناسیون">
+        <input type="hidden" name="vaccinationCardProcessed" id="vaccinationCardProcessed">
+      </div>
+
+      <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition">
+        ارسال مدارک
+      </button>
+    </form>
+  </div>
+
+  <script nonce="<%= nonce %>">
+    // انتظار برای لود شدن opencv.js
+    cv['onRuntimeInitialized'] = () => {
+      console.log('OpenCV.js loaded');
+    };
+
+    async function processAndPreviewImage(event, previewId, processedId) {
+      const file = event.target.files[0];
+      const preview = document.getElementById(previewId);
+      const processedInput = document.getElementById(processedId);
+
+      if (!file) {
+        preview.src = '';
+        preview.classList.add('hidden');
+        processedInput.value = '';
+        return;
+      }
+
+      try {
+        // نمایش پیش‌نمایش اولیه
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('hidden');
+
+        // خواندن تصویر
+        const imgElement = new Image();
+        imgElement.src = URL.createObjectURL(file);
+        await new Promise(resolve => imgElement.onload = resolve);
+
+        // پردازش تصویر با OpenCV.js
+        const src = cv.imread(imgElement);
+        const gray = src.cvtColor(cv.COLOR_RGBA2GRAY);
+        const blurred = gray.gaussianBlur(new cv.Size(5, 5), 0);
+        const edges = blurred.canny(75, 200);
+
+        // پیدا کردن کانتورها
+        const contours = edges.findContours(cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+        const sortedContours = contours.sort((c1, c2) => c2.area - c1.area);
+
+        let docContour = null;
+        for (let i = 0; i < sortedContours.size(); i++) {
+          const contour = sortedContours.at(i);
+          const perimeter = contour.arcLength(true);
+          const approx = contour.approxPolyDP(0.02 * perimeter, true);
+          if (approx.length === 4) {
+            docContour = approx;
+            break;
+          }
+        }
+
+        if (!docContour || docContour.length !== 4) {
+          alert('نمی‌توان لبه‌های برگه را شناسایی کرد. لطفاً تصویر واضح‌تری آپلود کنید.');
+          processedInput.value = '';
+          return;
+        }
+
+        // مرتب‌سازی نقاط کانتور
+        const points = docContour.points.map(p => ({ x: p.x, y: p.y }));
+        points.sort((a, b) => a.x + a.y - (b.x + b.y)); // بالا-چپ
+        const topLeft = points[0];
+        points.sort((a, b) => b.x - a.x - (b.y - a.y)); // بالا-راست
+        const topRight = points[1];
+        points.sort((a, b) => b.x + b.y - (a.x + a.y)); // پایین-راست
+        const bottomRight = points[2];
+        points.sort((a, b) => a.x - b.x + (b.y - a.y)); // پایین-چپ
+        const bottomLeft = points[3];
+
+        // محاسبه ابعاد تصویر خروجی
+        const widthA = Math.sqrt((bottomRight.x - bottomLeft.x) ** 2 + (bottomRight.y - bottomLeft.y) ** 2);
+        const widthB = Math.sqrt((topRight.x - topLeft.x) ** 2 + (topRight.y - topLeft.y) ** 2);
+        const maxWidth = Math.max(Math.round(widthA), Math.round(widthB));
+
+        const heightA = Math.sqrt((topRight.x - bottomRight.x) ** 2 + (topRight.y - bottomRight.y) ** 2);
+        const heightB = Math.sqrt((topLeft.x - bottomLeft.x) ** 2 + (topLeft.y - bottomLeft.y) ** 2);
+        const maxHeight = Math.max(Math.round(heightA), Math.round(heightB));
+
+        // نقاط مبدا و مقصد برای Perspective Transform
+        const srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+          topLeft.x, topLeft.y,
+          topRight.x, topRight.y,
+          bottomRight.x, bottomRight.y,
+          bottomLeft.x, bottomLeft.y
+        ]);
+
+        const dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
+          0, 0,
+          maxWidth - 1, 0,
+          maxWidth - 1, maxHeight - 1,
+          0, maxHeight - 1
+        ]);
+
+        // اعمال Perspective Transform
+        const M = cv.getPerspectiveTransform(srcPoints, dstPoints);
+        const dst = src.warpPerspective(M, new cv.Size(maxWidth, maxHeight));
+
+        // نمایش تصویر پردازش‌شده
+        const canvas = document.createElement('canvas');
+        cv.imshow(canvas, dst);
+        preview.src = canvas.toDataURL('image/jpeg');
+        processedInput.value = canvas.toDataURL('image/jpeg');
+
+        // آزادسازی حافظه
+        src.delete();
+        gray.delete();
+        blurred.delete();
+        edges.delete();
+        contours.delete();
+        srcPoints.delete();
+        dstPoints.delete();
+        M.delete();
+        dst.delete();
+      } catch (err) {
+        console.error('خطا در پردازش تصویر:', err);
+        alert('خطا در پردازش تصویر. لطفاً تصویر دیگری آپلود کنید.');
+        processedInput.value = '';
+      }
+    }
+
+    // ارسال فرم با تصاویر پردازش‌شده
+    document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+      const requiredFields = [
+        'studentPhotoProcessed',
+        'studentBirthCertificateProcessed',
+        'fatherBirthCertificateProcessed',
+        'motherBirthCertificateProcessed',
+        'fatherNationalCardProcessed',
+        'motherNationalCardProcessed',
+        'guidanceFormProcessed',
+        'ninthGradeReportProcessed',
+        'vaccinationCardProcessed'
+      ];
+
+      for (const field of requiredFields) {
+        if (!document.getElementById(field).value) {
+          event.preventDefault();
+          alert('لطفاً تمام مدارک را آپلود و پردازش کنید.');
+          return;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

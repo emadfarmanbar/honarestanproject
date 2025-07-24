@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>صفحه پیدا نشد - هنرستان آسودگی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Vazir -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              light: '#4f46e5',
+              DEFAULT: '#4338ca',
+              dark: '#3730a3',
+            },
+            secondary: {
+              light: '#f59e0b',
+              DEFAULT: '#d97706',
+              dark: '#b45309',
+            },
+          },
+          boxShadow: {
+            'neumorphism': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+            'neumorphism-inset': 'inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 15px rgba(67, 56, 202, 0.6);
+    }
+    .feature-card {
+      @apply bg-white/80 rounded-xl p-4 flex flex-col items-center justify-center shadow-neumorphism hover:shadow-neumorphism-inset transition cursor-pointer;
+    }
+    .btn-primary {
+      @apply bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-3 rounded-full font-bold flex items-center justify-center transition hover:bg-gradient-to-l hover:shadow-lg btn-glow;
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- Main Card -->
+  <div class="glass-card w-full max-w-2xl p-8 shadow-2xl rounded-2xl overflow-hidden relative">
+    <!-- Decorative Elements -->
+    <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary-light rounded-full opacity-10"></div>
+    <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary-light rounded-full opacity-10"></div>
+    
+    <!-- Logo Section -->
+    <div class="flex flex-col items-center mb-8 relative z-10">
+      <div class="w-28 h-28 bg-white rounded-full shadow-neumorphism flex items-center justify-center mb-4">
+        <i class="fas fa-university text-4xl text-primary"></i>
+      </div>
+      <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
+          هنرستان آسودگی
+        </h1>
+        <p class="text-gray-600 font-medium">مدرسه فنی و حرفه‌ای نمونه استان</p>
+      </div>
+    </div>
+    
+    <!-- 404 Content -->
+    <div class="relative z-10 text-center">
+      <div class="text-9xl font-bold text-primary mb-6">
+        404
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        <i class="fas fa-exclamation-triangle text-secondary mr-2"></i>
+        صفحه مورد نظر یافت نشد!
+      </h2>
+      
+      <p class="text-gray-600 mb-8 leading-relaxed">
+        متأسفیم، صفحه‌ای که به دنبال آن هستید وجود ندارد یا ممکن است حذف شده باشد.
+        <br>
+        می‌توانید از طریق دکمه زیر به صفحه اصلی بازگردید.
+      </p>
+      
+      <!-- Features Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="feature-card">
+          <i class="fas fa-home text-primary text-2xl mb-2"></i>
+          <span>صفحه اصلی</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-phone-alt text-primary text-2xl mb-2"></i>
+          <span>تماس با ما</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-info-circle text-primary text-2xl mb-2"></i>
+          <span>درباره ما</span>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-user-graduate text-primary text-2xl mb-2"></i>
+          <span>ثبت‌نام</span>
+        </div>
+      </div>
+      
+      <!-- CTA Button -->
+      <div class="flex flex-col items-center">
+        <a href="/" class="btn-primary mb-4">
+          بازگشت به صفحه اصلی
+          <i class="fas fa-arrow-left mr-2"></i>
+        </a>
+        <p class="text-sm text-gray-500">
+          <i class="fas fa-clock mr-1"></i>
+          آخرین به‌روزرسانی: امروز
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="mt-8 text-center text-gray-500 text-sm">
+    <p>تمامی حقوق برای هنرستان فنی و حرفه‌ای آسودگی محفوظ است © ۱۴۰۳</p>
+    <div class="flex justify-center gap-4 mt-2">
+      <a href="#" class="hover:text-primary transition"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="hover:text-primary transition"><i class="fab fa-telegram"></i></a>
+      <a href="#" class="hover:text-primary transition"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+
+</body>
+</html>
